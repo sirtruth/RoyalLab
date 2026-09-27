@@ -9,7 +9,7 @@ def system_info():
     print(f"OS: {platform.system()}")
     print(f"Release: {platform.release()}")
     print(f"Architecture: {platform.machine()}")
-    print(f"Processor: {platform.processor()")
+    print(f"Processor: {platform.processor()}")
     
 
 
