@@ -1,3 +1,4 @@
+```python
 import os
 import platform
 import socket
@@ -10,7 +11,12 @@ def system_info():
     print(f"Release: {platform.release()}")
     print(f"Architecture: {platform.machine()}")
     print(f"Processor: {platform.processor()}")
-    
+
+
+def check_up():
+    print("\n=== Scan IP ===")
+    target = input("Enter IP address: ")
+    print(f"Target: {target}")
 
 
 def main():
@@ -21,6 +27,7 @@ def main():
 ╚══════════════════════════════════╝
 
 [1] System Information
+[2] Scan an IP
 [0] Exit
 """)
 
@@ -28,6 +35,9 @@ def main():
 
         if choice == "1":
             system_info()
+
+        elif choice == "2":
+            check_up()
 
         elif choice == "0":
             print("Exiting RoyalLab...")
@@ -39,3 +49,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+```
