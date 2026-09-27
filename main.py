@@ -13,9 +13,26 @@ def system_info():
 
 
 def check_up():
+    import socket
+
     print("\n=== Scan IP ===")
     target = input("Enter IP address: ")
-    print(f"Target: {target}")
+
+    ports = [22, 80, 443, 8080]
+
+    print(f"\nScanning {target}...")
+    
+    for port in ports:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(1)
+
+        result = sock.connect_ex((target, port))
+        sock.close()
+
+        if result == 0:
+            print(f"[OPEN]   {port}")
+        else:
+            print(f"[CLOSED] {port}")
 
 
 def main():
