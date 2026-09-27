@@ -5,10 +5,12 @@ import socket
 
 def system_info():
     print("\n=== SYSTEM INFO ===")
-    print(f"Hostname: {socket.gethostname()}")
+    print(f"Hostname: {socket.gethostbyname()}")
     print(f"OS: {platform.system()}")
     print(f"Release: {platform.release()}")
     print(f"Architecture: {platform.machine()}")
+    print(f"Processor: {platform.processor()")
+    
 
 
 def main():
