@@ -1,4 +1,3 @@
-@ -0,0 +1,39 @@
 import os
 import platform
 import socket
