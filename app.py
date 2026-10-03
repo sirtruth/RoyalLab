@@ -111,3 +111,32 @@ def api_logs():
     return {"logs": logs[-25:]}
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
+@app.route("/api/security")
+def api_security():
+    import subprocess
+
+    try:
+        result = subprocess.run(
+            ["journalctl", "-u", "ssh", "--since", "today", "--no-pager"],
+            capture_output=True,
+            text=True,
+            timeout=5
+        )
+
+        lines = result.stdout.splitlines()
+
+        failed = [
+            line for line in lines
+            if "Failed password" in line or "authentication failure" in line
+        ]
+
+        return {
+            "ssh_failed_attempts": len(failed),
+            "recent_attempts": failed[-10:]
+        }
+
+    except Exception as e:
+        return {
+            "error": str(e)
+        }
