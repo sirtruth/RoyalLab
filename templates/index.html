@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <header class="topbar">
+    <div>
+        <h1>ROYALLAB</h1>
+        <p>SYSTEM OPERATIONS</p>
+    </div>
+
+    <div class="header-status">
+        <span class="status-dot"></span>
+        ONLINE
+    </div>
+</header>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="container">
+    <h1>RoyalLab 👑</h1>
+    <div class="card">
+    <h2>Server</h2>
+    <p>Server Name: {{ server_name }}</p>
+    <p>Status:<span class="status"> {{ status }}</span>
+</p>
+    <p>Uptime: {{ uptime }}</p>
+    </div>
+    <div class="card">
+    <div class="resource-header">
+    <h2>Resources</h2>
+    <span class="monitoring-status">
+        <span class="status-dot"></span>
+        MONITORING
+    </span>
+</div>
+<div class="resource-grid">
+
+    <div class="resource-item">
+        <p>CPU: <span id="cpu-value">{{ cpu }}</span>%</p>
+
+        <div class="meter">
+            <div class="meter-fill" style="width: {{ cpu }}%;"></div>
+        </div>
+    </div>
+
+    <div class="resource-item">
+        <p>RAM: <span id="memory-value">{{ memory_used }}</span> GB / {{ memory_total }} GB</p>
+
+        <div class="meter">
+            <div class="meter-fill" id="memory-meter"></div>
+        </div>
+    </div>
+
+    <div class="resource-item">
+        <p>Disk: <span id="disk-value">{{ disk_used }}</span> GB / {{ disk_total }} GB</p>
+
+        <div class="meter">
+            <div class="meter-fill" id="disk-meter"></div>
+        </div>
+    </div>
+
+</div>
+    </div>
+<div class="card">
+    <h2>System Log</h2>
+    <div class="system-log">
+    <div class="log-entry">
+
+        <span class="log-time">SYSTEM</span>
+
+        <span class="log-message">RoyalLab system initialized</span>
+
+    </div>
+
+    <div class="log-entry">
+
+        <span class="log-time">INFO</span>
+
+        <span class="log-message">System monitoring active</span>
+
+    </div>
+
+    <div class="log-entry">
+
+        <span class="log-time">READY</span>
+
+        <span class="log-message">RoyalLab dashboard ready</span>
+
+    </div>
+    </div>
+</div>
+  </main>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
