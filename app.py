@@ -1,10 +1,50 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for, session
 import socket
 import subprocess
 import os
 import shutil
+from werkzeug.security import check_password_hash
+from auth_config import USERNAME, PASSWORD_HASH, SECRET_KEY
 
 app = Flask(__name__)
+app.secret_key = SECRET_KEY
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_SECURE"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+
+
+@app.before_request
+def require_login():
+    if request.endpoint in ("login", "static"):
+        return
+
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form.get("username", "")
+        password = request.form.get("password", "")
+
+        if username == USERNAME and check_password_hash(PASSWORD_HASH, password):
+            session.clear()
+            session["logged_in"] = True
+            session["username"] = username
+            return redirect(url_for("home"))
+
+        return render_template("login.html", error="Invalid username or password")
+
+    return render_template("login.html")
+
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("login"))
+
+
 
 
 server_name = socket.gethostname()
@@ -109,9 +149,6 @@ def api_logs():
     logs = result.stdout.strip().splitlines()
 
     return {"logs": logs[-25:]}
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
-
 @app.route("/api/security")
 def api_security():
     import subprocess
@@ -140,3 +177,6 @@ def api_security():
         return {
             "error": str(e)
         }
+
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=5000)

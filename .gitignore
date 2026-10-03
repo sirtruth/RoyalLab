@@ -1,0 +1,6 @@
+
+# RoyalLab secrets
+/auth_config.py
+/app.py.backup
+__pycache__/
+*.pyc
